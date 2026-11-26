@@ -38,23 +38,34 @@ let lines = [
 function renderBoard() {
   mainBoard.innerHTML = "";
   for (let field = 0; field < board.length; field++) {
-    mainBoard.innerHTML += `<div class= "cell" onclick="handleClick(${field})">${board[field]}</div>`;
+    mainBoard.innerHTML += `<div class="cell" onclick="handleClick(${field})">${board[field]}</div>`;
   }
 }
 
 renderBoard();
 
 function handleClick(index) {
-  if (board[index] !== "") {
+  if (gameOver || board[index] !== "") {
     return;
   }
   board[index] = currentPlayer;
+  renderBoard();
+  if (hasThreeInARow()) {
+    gameOver = true;
+    showLoser();
+    return;
+  }
+  if (!board.includes("")) {
+    gameOver = true;
+    statusText.textContent = "Unentschieden! Alle Felder sind voll.";
+    return;
+  }
   if (currentPlayer === "x") {
     currentPlayer = "o";
   } else {
     currentPlayer = "x";
   }
-  renderBoard();
+
   updateStatus();
 }
 
@@ -64,4 +75,38 @@ function updateStatus() {
   } else {
     statusText.textContent = "Kreis ist dran";
   }
+}
+
+function hasThreeInARow() {
+  for (let indexLine = 0; indexLine < lines.length; indexLine++) {
+    let first = lines[indexLine][0];
+    let second = lines[indexLine][1];
+    let third = lines[indexLine][2];
+    if (
+      board[first] === currentPlayer &&
+      board[second] === currentPlayer &&
+      board[third] === currentPlayer
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function showLoser() {
+  if (currentPlayer === "x") {
+    statusText.textContent =
+      "Kreuz hat drei in einer Reihe - Kreis gewinnt das Spiel!";
+  } else {
+    statusText.textContent =
+      "Kreis hat drei in einer Reihe - Kreuz gewinnt das Spiel!";
+  }
+}
+
+function restartGame() {
+  board = new Array(16).fill("");
+  currentPlayer = "x";
+  gameOver = false;
+  renderBoard();
+  updateStatus();
 }

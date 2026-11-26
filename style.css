@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: rgb(12, 87, 134);
+  background-color: rgb(63, 56, 102);
   font-family:
     "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -50,9 +50,21 @@ body {
 }
 
 .cell:hover {
-  background-color: beige;
+  background-color: whitesmoke;
 }
 
 #status{
   font-size: 20px;
+}
+
+.restartButton{
+  padding: 8px;
+  cursor: pointer;
+  margin-top: 34px;
+  font-size: 18px;
+  border-radius: 13px;
+  border-style: none
+}
+.restartButton:hover{
+  background-color: rgb(138, 183, 245);
 }
